@@ -1,0 +1,19 @@
+<package>
+  <name>autolabor_pro1</name>
+  <version>0.1.0</version>
+  <description>autolabor_pro1</description>
+  <maintainer email="wangliujun_bit@163.com">wangliujun</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>autolabor_pro1_driver</run_depend>
+  <run_depend>autolabor_pro1_description</run_depend>
+  <run_depend>autolabor_pro1_nav</run_depend>
+  <run_depend>rbx1_nav</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>

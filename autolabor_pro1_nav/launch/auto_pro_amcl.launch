@@ -1,0 +1,45 @@
+<!--xml version="1.0"-->
+<!--autolabor pro with cartographer 2D SLAM-->
+<launch>
+	<param name="use_sim_time" value="false" />
+
+    <!--autolabor_pro_description-->
+    <include file = "$(find autolabor_pro1_description)/launch/auto_pro1_laser.launch" />
+
+	<!--autolabor pro driver-->
+    <include file = "$(find autolabor_pro1_driver)/launch/driver.launch" />
+
+	<!--rplidar-->
+	<include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+
+	<!--joy twist-->
+    <!-- <node name="joy" pkg="joy" type="joy_node" />
+    <node name = "teleop_twist_joy" pkg = "teleop_twist_joy" type = "teleop_node">
+        <param name = "enable_button" value = "4" type = "int" />
+        <param name = "enable_turbo_button" value = "0" />
+        <param name = "scale_linear_turbo" value = "0.5" type = "double" />
+        <param name = "axis_linear" value = "1" type = "int" />
+        <param name = "scale_linear" value = "0.3" type = "double" />
+        <param name = "axis_angular" value = "0" type = "int" />
+        <param name = "scale_angular" value = "0.3" type = "double" />
+    </node> -->
+    
+    <!--key twist-->
+    <node name="tele_key_twist" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+		<param name="speed" value="0.2" />
+		<param name="turn" value="0.3" />
+    </node>
+
+    <!-- Run the map server with a lab map -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find autolabor_pro1_nav)/maps/lab_carto_map.yaml"/>
+
+	<!--move_base node-->
+	<include file="$(find autolabor_pro1_nav)/launch/move_base_2.5.launch" />
+
+	<!--amcl-->
+    <include file = "$(find autolabor_pro1_nav)/launch/auto_amcl.launch" />
+
+	<node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find autolabor_pro1_nav)/amcl.rviz" />
+
+</launch>

@@ -1,0 +1,41 @@
+<launch>
+
+    <!--autolabor_pro_description-->
+    <include file = "$(find autolabor_pro1_description)/launch/auto_pro1_laser.launch" />
+
+    <!--autolabor pro driver-->
+    <include file = "$(find autolabor_pro1_driver)/launch/driver.launch" />
+
+    <!--key twist-->
+    <node name="tele_key_twist" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+        <param name="speed" value="0.2" />
+        <param name="turn" value="0.3" />
+    </node>
+    <!--joy twist-->
+    <node name="joy" pkg="joy" type="joy_node" />
+    <node name = "teleop_twist_joy" pkg = "teleop_twist_joy" type = "teleop_node">
+        <param name = "enable_button" value = "4" type = "int" />
+        <param name = "enable_turbo_button" value = "0" />
+        <param name = "scale_linear_turbo" value = "0.5" type = "double" />
+        <param name = "axis_linear" value = "1" type = "int" />
+        <param name = "scale_linear" value = "0.3" type = "double" />
+        <param name = "axis_angular" value = "0" type = "int" />
+        <param name = "scale_angular" value = "0.3" type = "double" />
+    </node>
+
+    <!--rplidar-->
+    <include file = "$(find rplidar_ros)/launch/rplidar.launch" />    
+
+    <!--cartographer_ros-->
+    <include file = "/home/king/lidar_ws/src/cartographer_ros/cartographer_ros/launch/rplidar_2d.launch" />
+
+    <!--move_base node-->
+    <include file="$(find autolabor_pro1_nav)/launch/move_base_2.5.launch" />
+
+    <!-- Run a static transform between /odom and /map -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 map odom 200" /> -->
+
+    <!--rviz-->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find autolabor_pro1_nav)/gmapping.rviz" /> -->
+
+</launch>

@@ -1,0 +1,40 @@
+# global_costmap:
+#   # global_frame: map
+#   # robot_base_frame: base_link
+#   update_frequency: 5
+#   transform_tolerance: 1.0
+#   width: 20
+#   height: 20
+#   origin_x: -10.0
+#   origin_y: -10.0
+#   static_map: true  # 
+#   rolling_window: false
+#   resolution: 0.05
+
+  ####
+# global_costmap:
+#   update_frequency: 2.5
+#   transform_tolerance: 5
+#   width: 5
+#   height: 5
+#   origin_x: -2.5
+#   origin_y: -2.5
+#   static_map: false
+#   rolling_window: true
+#   resolution: 0.1
+
+# turtlebot
+global_costmap:
+   global_frame: map
+   robot_base_frame: base_footprint
+   update_frequency: 5
+   transform_tolerance: 1.0
+   publish_frequency: 0
+   width: 20 
+   height: 20
+   origin_x: -10.0
+   origin_y: -10.0
+   static_map: true
+   rolling_window: false
+   resolution: 0.05
+   map_type: costmap

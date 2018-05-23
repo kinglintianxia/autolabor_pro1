@@ -1,0 +1,35 @@
+<!--xml version="1.0"-->
+<!--autolabor pro with cartographer 2D SLAM-->
+<launch>
+
+	<param name="use_sim_time" value="false" />
+
+	<!--autolabor_pro_description-->
+	<include file = "$(find autolabor_pro1_description)/launch/auto_pro1_laser.launch" />
+
+	<!--autolabor pro driver-->
+    <include file = "$(find autolabor_pro1_driver)/launch/driver.launch" />
+
+	<!--tf from base_link to laser-->
+	<node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
+        args="0.1 0 0.1 0 0 0 base_link laser 200" />
+
+    <!--key twist-->
+    <node name="tele_key_twist" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+		<param name="speed" value="0.2" />
+		<param name="turn" value="0.3" />
+    </node>
+
+	<!-- Run the map server with a blank with obstacle map -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find autolabor_pro1_nav)/maps/blank_map_with_obstacle.yaml"/>
+
+	<!--move_base node-->
+	<include file="$(find autolabor_pro1_nav)/launch/move_base.launch" />
+
+    <!--map to odom tf-->
+    <node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 map odom 100" />
+	<!--rviz-->
+    <node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find autolabor_pro1_nav)/move_base.rviz" />
+
+</launch>

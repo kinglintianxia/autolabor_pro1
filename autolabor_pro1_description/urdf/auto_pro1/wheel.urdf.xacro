@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<robot name="wheel" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <property name="wheel_length" value="0.080" />
+  <property name="wheel_radius" value="0.135" />
+  
+  <property name="PI" value="3.1415" />
+     
+  <!-- define a wheel -->
+  <macro name="wheel" params="suffix parent color *origin">
+    <joint name="${parent}_${suffix}_wheel_joint" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="0 0 1" />
+      <limit effort="100" velocity="100"/>
+      <safety_controller k_velocity="10" />
+      <parent link="${parent}_link"/>
+      <child link="${parent}_${suffix}_wheel_link"/>
+    </joint>
+
+    <link name="${parent}_${suffix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="${color}" />
+      </visual>
+    </link>
+  </macro>
+
+
+</robot>

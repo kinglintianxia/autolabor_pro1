@@ -1,0 +1,62 @@
+<!--xml version="1.0"-->
+<!--autolabor pro with cartographer 2D SLAM-->
+<launch>
+
+	<param name="use_sim_time" value="false" />
+	<!--autolabor pro driver-->
+    <node name="autolabor_driver" pkg="autolabor_pro1_driver" type="autolabor_pro1_driver" output="screen">
+        <param name="port_name" value="/dev/ttyUSB0" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_frame" value="base_link" />
+
+        <param name="baud_rate" value="115200" />
+        <param name="control_rate" value="10" />
+        <param name="sensor_rate" value="5" />
+
+        <param name="reduction_ratio" value="1.0" />
+        <param name="encoder_resolution" value="1600.0" />
+
+        <param name="wheel_diameter" value="0.25" />
+        <param name="model_param" value="0.83" />
+        <param name="pid_rate" value="50.0" />
+	    <param name="maximum_encoding" value="32.0" />
+    </node>
+
+	<!--rplidar-->
+	<include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+
+	<!--tf from laser to base_link-->
+	<node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
+        args="0.1 0 0 0 0 0 base_link laser 200" />
+
+	<!--joy twist-->
+    <!-- <node name="joy" pkg="joy" type="joy_node" />
+    <node name = "teleop_twist_joy" pkg = "teleop_twist_joy" type = "teleop_node">
+        <param name = "enable_button" value = "4" type = "int" />
+        <param name = "enable_turbo_button" value = "0" />
+        <param name = "scale_linear_turbo" value = "0.5" type = "double" />
+        <param name = "axis_linear" value = "1" type = "int" />
+        <param name = "scale_linear" value = "0.3" type = "double" />
+        <param name = "axis_angular" value = "0" type = "int" />
+        <param name = "scale_angular" value = "0.3" type = "double" />
+    </node> -->
+    <!--key twist-->
+    <node name="tele_key_twist" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+		<param name="speed" value="0.2" />
+		<param name="turn" value="0.3" />
+    </node>
+
+	<!--move_base node-->
+	<include file="$(find autolabor_pro1_driver)/launch/move_base_lab_map.launch" />
+
+	<!-- Run a static transform between /odom and /map -->
+  	<!-- <node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 map odom 200" /> -->
+	<!--cartographer-->
+	<!--
+	<include file="/home/tinker/carto_ws/src/cartographer_ros/cartographer_ros/launch/rplidar_2d.launch" />
+	-->
+
+	<node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find autolabor_pro1_driver)/gmapping.rviz" />
+
+</launch>

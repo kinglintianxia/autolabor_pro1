@@ -1,0 +1,20 @@
+<!--xml version = "1.0"-->
+<launch>
+    <node name="autolabor_driver" pkg="autolabor_pro1_driver" type="autolabor_pro1_driver" output="screen">
+        <param name="port_name" value="/dev/autolabor_pro1" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_frame" value="base_footprint" />
+
+        <param name="baud_rate" value="115200" />
+        <param name="control_rate" value="10" />
+        <param name="sensor_rate" value="5" />
+
+        <param name="reduction_ratio" value="0.910" />  <!--calib-->
+        <param name="encoder_resolution" value="1600.0" /> <!--default: 1600-->
+
+        <param name="wheel_diameter" value="0.25" />
+        <param name="model_param" value="0.8342" />  <!--distance between robot left and right wheels-->
+        <param name="pid_rate" value="50.0" />
+	    <param name="maximum_encoding" value="32.0" />
+    </node>
+</launch>

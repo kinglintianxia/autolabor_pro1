@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<robot name="auto_pro1" xmlns:xacro="http://ros.org/wiki/xacro">
+
+   <!-- Define a number of dimensions using properties -->
+   <property name="wheel_offset_x" value="0.228" />  <!--${base_size_x/2}-${wheel_radius}-->
+   <property name="wheel_offset_y" value="0.2675" />  <!--${base_size_y/2}++${wheel_length/2}+0.015-->
+   <property name="wheel_offset_z" value="-0.065" />
+   
+   <property name="laser_offset_x" value="0.10" />
+   <property name="laser_offset_y" value="0.0" />
+   <property name="laser_offset_z" value="0.10" />
+
+   <property name="PI" value="3.1415" />
+
+   <!-- Include all component files -->
+   <xacro:include filename="$(find autolabor_pro1_description)/urdf/materials.urdf.xacro" />
+   <xacro:include filename="$(find autolabor_pro1_description)/urdf/auto_pro1/base.urdf.xacro" />
+   <xacro:include filename="$(find autolabor_pro1_description)/urdf/sensors/laser.urdf.xacro" />
+   
+   <!-- Add the base & wheels -->
+   <base name="base" color="Goldenrod"/>
+   
+   <!-- Attach the laser -->
+   <laser parent="base" color="DarkGrey">
+      <origin xyz="${laser_offset_x} ${laser_offset_y} ${laser_offset_z}" rpy="0 0 0 " />
+   </laser>
+
+</robot>
+
+

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<robot name="base" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <property name="base_size_x" value="0.726" />
+  <property name="base_size_y" value="0.425" />
+  <property name="base_size_z" value="0.20" />
+  <property name="wheel_offset_x" value="0.228" />  <!--${base_size_x/2}-${wheel_radius}-->
+  <property name="wheel_offset_y" value="0.2675" />  <!--${base_size_y/2}++${wheel_length/2}+0.015-->
+  <property name="wheel_offset_z" value="-0.065" />  <!--${base_size_z/2}-${wheel_radius}+0.1-->
+  <property name="wheel_radius" value="0.135" />
+  <property name="PI" value="3.1415" />
+  
+  <xacro:include filename="$(find autolabor_pro1_description)/urdf/auto_pro1/wheel.urdf.xacro" />
+
+  <!-- The base xacro macro -->
+  <macro name="base" params="name color">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="${base_size_x} ${base_size_y} ${base_size_z}" />
+        </geometry>
+        <material name="${color}" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="${base_size_x} ${wheel_offset_y*2 + wheel_length} ${base_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+  </macro>
+  
+  <link name="base_footprint">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.05 0.05 0.001" />
+        </geometry>
+        <material name="TransparentGreen" />
+      </visual>
+  </link>
+  
+  <joint name="base_joint" type="fixed">
+    <origin xyz="0 0 ${wheel_radius - wheel_offset_z}" rpy="0 0 0" />  <!--${wheel_radius + wheel_offset_z}-->       
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
+  <!-- Add the drive wheels -->
+   <wheel parent="base" suffix="l1"  color="Black">
+      <origin xyz="${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="${PI/2} 0 0 " />
+   </wheel>
+   <wheel parent="base" suffix="l2"  color="Black">
+      <origin xyz="${-wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="${PI/2} 0 0 " />
+   </wheel>
+   <wheel parent="base" suffix="r1"  color="Black">
+      <origin xyz="${wheel_offset_x} ${-wheel_offset_y} ${wheel_offset_z}" rpy="${-PI/2} 0 0 " />
+   </wheel>
+   <wheel parent="base" suffix="r2"  color="Black">
+      <origin xyz="${-wheel_offset_x} ${-wheel_offset_y} ${wheel_offset_z}" rpy="${-PI/2} 0 0 " />
+   </wheel>
+
+</robot>

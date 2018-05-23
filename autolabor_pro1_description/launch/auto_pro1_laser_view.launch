@@ -1,0 +1,22 @@
+<!-- xacro xml version = "1.0"-->
+<launch>
+	<arg name="rvizconfig" default="$(find autolabor_pro1_description)/urdf.rviz" />
+    <!-- Load the URDF/Xacro model of our robot -->
+    <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find autolabor_pro1_description)/urdf/auto_pro1/auto_pro1_with_laser.xacro'" />
+
+    <param name="robot_description" command="$(arg urdf_file)" />
+    
+    <!-- Publish the robot state -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    	<param name="publish_frequency" value="20.0"/>
+    </node>
+
+	<!-- Provide simulated control of the robot joint angles -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    	<param name="use_gui" value="True" />
+    	<param name="rate" value="20.0"/>
+    </node>
+
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+</launch>
