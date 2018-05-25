@@ -20,6 +20,9 @@
 		<param name="turn" value="0.3" />
     </node>
 
+    <!--rplidar-->
+    <include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+    
     <!-- Run the map server with a lab map -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(find autolabor_pro1_nav)/maps/lab_carto_map.yaml"/>
 
