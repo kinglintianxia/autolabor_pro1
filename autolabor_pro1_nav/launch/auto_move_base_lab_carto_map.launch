@@ -21,7 +21,7 @@
     </node>
 
     <!-- Run the map server with a lab map -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find autolabor_pro1_nav)/maps/lab_map.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find autolabor_pro1_nav)/maps/lab_carto_map.yaml"/>
 
 	<!--move_base node-->
 	<include file="$(find autolabor_pro1_nav)/launch/move_base.launch" /><!--move_base node-->

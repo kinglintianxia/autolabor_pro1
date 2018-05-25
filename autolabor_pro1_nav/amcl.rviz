@@ -205,7 +205,7 @@ Visualization Manager:
       Marker Topic: /waypoint_markers
       Name: Marker
       Namespaces:
-        {}
+        waypoints: true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -272,22 +272,22 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Global costmap
       Topic: /move_base/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
-      Value: true
+      Value: false
     - Alpha: 0.300000012
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Local costmap
       Topic: /move_base/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
-      Value: true
+      Value: false
     - Alpha: 0.200000003
       Arrow Length: 0.300000012
       Axes Length: 0.300000012
@@ -368,7 +368,15 @@ Visualization Manager:
       Length: 0.5
       Name: Axes
       Radius: 0.0500000007
-      Reference Frame: base_footprint
+      Reference Frame: base_link
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /docking_station_marker
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -402,7 +410,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 100.334908
+      Scale: 117.843452
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: -0.101833217

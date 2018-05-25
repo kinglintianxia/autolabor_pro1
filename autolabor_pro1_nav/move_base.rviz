@@ -184,7 +184,7 @@ Visualization Manager:
       Marker Topic: /waypoint_markers
       Name: Marker
       Namespaces:
-        {}
+        waypoints: true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -280,11 +280,19 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Inflated Obstacles
       Topic: /move_base/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
+      Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /docking_station_marker
+      Name: Docking Marker
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
