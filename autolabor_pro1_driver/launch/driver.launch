@@ -3,7 +3,7 @@
     <node name="autolabor_driver" pkg="autolabor_pro1_driver" type="autolabor_pro1_driver" output="screen">
         <param name="port_name" value="/dev/autolabor_pro1" />
         <param name="odom_frame" value="odom" />
-        <param name="base_frame" value="base_footprint" />
+        <param name="base_frame" value="base_link" />
 
         <param name="baud_rate" value="115200" />
         <param name="control_rate" value="10" />

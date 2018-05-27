@@ -1,0 +1,1 @@
+# This package contains autolabor_pro1 urdf xacro description files.
