@@ -289,6 +289,7 @@ amcl配置文件为`autolabor_pro1_nav/launch/auto_amcl.launch`。
 $ roslaunch autolabor_pro1_nav auto_pro_amcl.launch
 ```
 启动程序后一般需要在Rviz中通过**2D Pose Estimate**按钮设定amcl定位初值，大致标示机器人在地图中的位置，加快粒子群收敛。
+
 ![amcl0](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/amcl0.png)
 
 最终，会看到机器人在地图中很好的定位。
