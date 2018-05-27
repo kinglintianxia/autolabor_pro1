@@ -1,6 +1,8 @@
 # 简介
-程序实现了室内自主导航机器人。基本功能有激光SLAM建图、AMCL定位、机器人运动规划、车辆监控和任务规划。
-底盘采用[Autolabor](http://www.autolabor.com.cn)公司的autolabor pro1，激光雷达选用[rplidar A1](http://www.slamtec.com/cn/Lidar/A1)，Nvidia TX2 作为主控，操作系统Ubuntu 16.04,基于ROS kinetic实现。
+
+* 程序实现了室内自主导航机器人。基本功能有激光SLAM建图、AMCL定位、机器人运动规划、车辆监控和任务规划。
+* 底盘采用[Autolabor](http://www.autolabor.com.cn)公司的autolabor pro1，激光雷达选用[rplidar A1](http://www.slamtec.com/cn/Lidar/A1)，Nvidia TX2 作为主控，操作系统Ubuntu 16.04,基于ROS kinetic实现。
+
 ---
 
 [TOC]
@@ -288,6 +290,7 @@ $ roslaunch autolabor_pro1_nav auto_pro_amcl.launch
 ```
 启动程序后一般需要在Rviz中通过**2D Pose Estimate**按钮设定amcl定位初值，大致标示机器人在地图中的位置，加快粒子群收敛。
 ![amcl0](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/amcl0.png)
+
 最终，会看到机器人在地图中很好的定位。
 ![amcl1](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/amcl1.png)
 
@@ -312,4 +315,4 @@ $ rosrun autolabor_pro1_nav patrol_tree.py
 # 10.使用TX2作为主控
 Jetson TX2采用 NVIDIA Maxwell™ 架构、256 颗 NVIDIA CUDA® 核心 和 64 位 CPU，并且其设计非常节能高效(7.5W)。此外，它还采用了深度学习、 计算机视觉、GPU 计算和图形方面的新技术，非常适合嵌入式 AI 计算。适合机器人、无人机、智能摄像机和便携医疗设备等智能终端设备。
 将程序部署到TX2上，会遇到rplidar插入USB不能识别串口的问题，需要重新编译内核，加入CP210x串口驱动支持，解决的方法见[博客](https://blog.csdn.net/gzj2013/article/details/77069803)。
-[TX2部署图片]()
+[TX2部署图片](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/tx2.png)
