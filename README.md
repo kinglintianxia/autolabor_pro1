@@ -2,17 +2,20 @@
 程序实现了室内自主导航机器人。基本功能有激光SLAM建图、AMCL定位、机器人运动规划、车辆监控和任务规划。
 底盘采用[Autolabor](http://www.autolabor.com.cn)公司的autolabor pro1，激光雷达选用[rplidar A1](http://www.slamtec.com/cn/Lidar/A1)，Nvidia TX2 作为主控，操作系统Ubuntu 16.04,基于ROS kinetic实现。
 ---
+
 [TOC]
 
 # 配置步骤
-#1 安装依赖项
+
+# 1.安装依赖项
 ```shell
 $ sudo apt-get install ros-kinetic-joy ros-kinetic-teleop-twist-joy ros-kinetic-teleop-twist-keyboard
 $ sudo apt-get install ros-kinetic-gmapping ros-kinetic-move-base ros-kinetic-amcl \
   ros-kinetic-map-server ros-kinetic-dwa-local-planner ros-kinetic-global-planner
 
 ```
-#2 建立ros工作空间,clone 代码
+
+# 2.建立ros工作空间,clone 代码
 ```shell
 $ mkdir -p ~/auto_ws/src
 $ cd ~/auto_ws/src
@@ -29,7 +32,8 @@ $ catkin_make
 ├── autolabor_pro1_nav
 └── README.md
 ```
-#3 autolabor pro1 底盘配置
+
+# 3.autolabor pro1 底盘配置
 ## autolabor pro1底盘驱动下载与解压，代码中底盘驱动位于autolabor_pro1_driver目录下
 ```
 $ wget http://autolabor.cn/file/AutolaborPro1_ROS_Driver_Package20180115.zip
@@ -105,7 +109,7 @@ w/x : increase/decrease only linear speed by 10%
 e/c : increase/decrease only angular speed by 10%
 ```
 ## 标定里程计
-标定详情参考`ros_by_example_indigo_volume_1`-7.4节。在地板上标出1m的长度，用于标定Linear。
+标定详情参考`ros_by_example_indigo_volume_1`-7.4节。在地板上测量标记出1m的长度，用于标定Linear。
 
 * Linear Calibration
 ```shell
@@ -114,11 +118,12 @@ $ rosrun autolabor_pro1_nav calibrate_linear.py
 $ rosrun rqt_reconfigure rqt_reconfigure
 ```
 ![Linear Calibration](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/rqt_linear.png)
-> 1.将小车移动到1m标识的起点，选择rqt_reconfigure窗口的`start\_test`，按钮，小车启动往前移动，测量实际前进距离记为`real_dis`
-> 2.ratio = real_dis/1m
-> 3.修改rqt_reconfigure GUI 窗口`odom_linear_scale_correction`为`ratio`
-> 4.重复以上步骤，直到精度达到满意。
-
+```
+1.将小车移动到1m标识的起点，选择rqt_reconfigure窗口的`start\_test`，按钮，小车启动往前移动，测量实际前进距离记为`real_dis`
+2.ratio = real_dis/1m
+3.修改rqt_reconfigure GUI 窗口`odom_linear_scale_correction`为`ratio`
+4.重复以上步骤，直到精度达到满意。
+```
 将autolabor_pro1_driver/launch/driver.launch文件中`reduction_ratio`改为1/ratio
 
 * Angular Calibration
@@ -128,11 +133,12 @@ $ rosrun autolabor_pro1_nav calibrate_angular.py
 $ rosrun rqt_reconfigure rqt_reconfigure
 ```
 ![Angular Calibration](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/rqt_angular.png)
->1.将小车移动到相对空旷的地方，在地面上贴好0°和360°标识，选择rqt_reconfigure窗口的`start\_test`，按钮，小车旋转360°，测量实际旋转角度`real_ang`。
-> 2.ratio = real_ang/360°
-> 3.修改rqt_reconfigure GUI 窗口`odom\_angular\_scale\_correction`为`ratio`
-> 4. 重复以上步骤，直到精度达到满意。
-
+```
+1.将小车移动到相对空旷的地方，在地面上贴好0°和360°标识，选择rqt_reconfigure窗口的`start\_test`，按钮，小车旋转360°，测量实际旋转角度`real_ang`。
+2.ratio = real_ang/360°
+3.修改rqt_reconfigure GUI 窗口`odom\_angular\_scale\_correction`为`ratio`
+4. 重复以上步骤，直到精度达到满意。
+```
 将autolabor_pro1_driver/launch/driver.launch文件中`model_param`改为`model_param/ratio`
 
 #4 rplidar A1 配置
@@ -161,7 +167,8 @@ $ roslaunch rplidar_ros view_rplidar.launch
 ```
 在rviz中可以看到雷达点云数据。
 ![view_rplidar](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/rplidar.png)
-#5 机器人模型
+
+# 5.机器人模型
 为了在激光SLAM建图、move_base运动规划和amcl定位中更直观的观测机器人的footprint，建立URDF模型,模型按照真实尺寸建立。
 URDF模型package位于autolabor_pro1/autolabor_pro1_description下，详细教程见`ros_by_example_indigo_volume_2`-4章。模型链接关系如下:
 ```shell
@@ -181,7 +188,7 @@ $ roslaunch autolabor_pro1_description auto_pro1_laser_view.launch
 ```
 ![URDF](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/urdf.png)
 * 最后，要将rplidar_ros/launch/rplidar.launch中的`frame_id`改为`base_laser`以和URDF模型保持一致。
-#6 机器人运动规划
+# 6.机器人运动规划
 运动规划库使用ROS move_base, 关于move_base的详细教程见[move_base ros wiki](http://wiki.ros.org/move_base)和`ros_by_example_indigo_volume_2`-7、8章和[ROSBot Tutorials](https://husarion.com/tutorials/ros-tutorials/7-path-planning/)
 * move_base 配置文件位于autolabor_pro1_nav/config下。config下几个配置文件选用Dynamic Window Approach（dwa）算法，修改自autolabor2.5的配置文件。config/0文件下为turtlebot和ROSBot的配置文件，最终经过调试发现autolabor2.5的配置文件性能较好。
 ## move_base测试
@@ -196,7 +203,8 @@ $ roslaunch autolabor_pro1_nav auto_move_base_blank_map.launch
 $ roslaunch autolabor_pro1_nav auto_move_base_blank_map_with_obstacle.launch
 ```
 使用Rviz工具栏中的**2D Nav Goal**按钮选择Goal，测试move_base避障功能是否正常工作。
-#7 激光SLAM建图
+
+# 7.激光SLAM建图
 激光SLAM建图部分使用gmapping和Google cartographer开源方案。
 ## gmapping建图
 * gmapping开源方案已经整合到ROS库中,详细参数说明见[gmapping ros wiki](http://wiki.ros.org/gmapping)。我们比较关心的参数有：
@@ -268,7 +276,8 @@ $ roslaunch autolabor_pro1_nav auto_cartographer.launch
 ```shell
 $ rosrun map_server map_saver -f map_name
 ```
-#8 AMCL定位
+
+# 8.AMCL定位
 建好地图之后, ROS 提供**amcl**包 (adaptive
 Monte Carlo localization) 根据当前laser输入和/odom自动定位机器人在地图中位置。配合move_base包可以使机器人实现在地图中自主导航。
 amcl配置文件为`autolabor_pro1_nav/launch/auto_amcl.launch`。
@@ -281,9 +290,12 @@ $ roslaunch autolabor_pro1_nav auto_pro_amcl.launch
 ![amcl0](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/amcl0.png)
 最终，会看到机器人在地图中很好的定位。
 ![amcl1](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/amcl1.png)
-#9 Behavior Trees 任务规划
+
+# 9.Behavior Trees 任务规划
 使用行为树（Behavior Trees）进行机器人任务规划。详细教程见`ros_by_example_indigo_volume_2`-3.9和3.10节。由于现在ROS中没有现成的行为树库，使用第三方库`pi_trees`实现。
 ```shell
+$ sudo apt-get install graphviz-dev libgraphviz-dev \
+python-pygraph python-pygraphviz gv
 $ cd ~/carto_ws/src
 $ git clone -b indigo-devel https://github.com/pirobot/pi_trees.git
 $ cd ~/auto_ws && catkin_make
@@ -296,7 +308,8 @@ $ roslaunch autolabor_pro1_nav auto_pro_amcl.launch
 $ rosrun autolabor_pro1_nav patrol_tree.py
 ```
 最终，机器人实现自主导航视频[auto_nav](http://v.youku.com/v_show/id_XMzYyNDc3NTgxMg==.html?spm=a2hzp.8244740.0.0)。
-#10 使用TX2作为主控
+
+# 10.使用TX2作为主控
 Jetson TX2采用 NVIDIA Maxwell™ 架构、256 颗 NVIDIA CUDA® 核心 和 64 位 CPU，并且其设计非常节能高效(7.5W)。此外，它还采用了深度学习、 计算机视觉、GPU 计算和图形方面的新技术，非常适合嵌入式 AI 计算。适合机器人、无人机、智能摄像机和便携医疗设备等智能终端设备。
 将程序部署到TX2上，会遇到rplidar插入USB不能识别串口的问题，需要重新编译内核，加入CP210x串口驱动支持，解决的方法见[博客](https://blog.csdn.net/gzj2013/article/details/77069803)。
 [TX2部署图片]()
