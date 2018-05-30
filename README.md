@@ -313,6 +313,7 @@ $ roslaunch autolabor_pro1_nav auto_pro_amcl.launch
 $ rosrun autolabor_pro1_nav patrol_tree.py
 ```
 最终，机器人实现自主导航视频：
+
 [![auto_nav](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/auto_nav.png)
 ](http://v.youku.com/v_show/id_XMzYyNDc3NTgxMg==.html?spm=a2hzp.8244740.0.0)
 
@@ -320,4 +321,4 @@ $ rosrun autolabor_pro1_nav patrol_tree.py
 Jetson TX2采用 NVIDIA Maxwell™ 架构、256 颗 NVIDIA CUDA® 核心 和 64 位 CPU，并且其设计非常节能高效(7.5W)。此外，它还采用了深度学习、 计算机视觉、GPU 计算和图形方面的新技术，非常适合嵌入式 AI 计算。适合机器人、无人机、智能摄像机和便携医疗设备等智能终端设备。
 将程序部署到TX2上，会遇到rplidar插入USB不能识别串口的问题，需要重新编译内核，加入CP210x串口驱动支持，解决的方法见[博客](https://blog.csdn.net/gzj2013/article/details/77069803)。
 TX2部署视频：
-[![TX2部署视频](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/tx2.png](http://v.youku.com/v_show/id_XMzYyOTk5MDE0OA==.html?spm=a2hzp.8244740.0.0)
+[![TX2部署视频](https://github.com/kinglintianxia/autolabor_pro1/blob/master/autolabor_pro1/img/tx2.png)](http://v.youku.com/v_show/id_XMzYyOTk5MDE0OA==.html?spm=a2hzp.8244740.0.0)
