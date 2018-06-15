@@ -301,7 +301,7 @@ $ roslaunch autolabor_pro1_nav auto_pro_amcl.launch
 ```shell
 $ sudo apt-get install graphviz-dev libgraphviz-dev \
 python-pygraph python-pygraphviz gv
-$ cd ~/carto_ws/src
+$ cd ~/auto_ws/src
 $ git clone -b indigo-devel https://github.com/pirobot/pi_trees.git
 $ cd ~/auto_ws && catkin_make
 ```
